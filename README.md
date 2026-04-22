@@ -1,8 +1,6 @@
 
-
 ![Logo](logo.png)
 
-# KotlinGameBench
 A sophisticated game development framework in Kotlin, currently featuring a Connect Four implementation with an AI opponent powered by the minimax algorithm with alpha-beta pruning.
 
 ## 🎮 Game Features
