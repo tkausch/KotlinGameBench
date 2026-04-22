@@ -1,5 +1,7 @@
 
-![Logo](logo.png)
+<p align="center">
+  <img src="logo.png" alt="Logo" width="400"/>
+</p>
 
 A sophisticated game development framework in Kotlin, currently featuring a Connect Four implementation with an AI opponent powered by the minimax algorithm with alpha-beta pruning.
 
