@@ -1,4 +1,4 @@
-package org.example
+package li.kausch.kgb
 
 /**
  * Interface representing a game move with player information.

@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="MainKt" type="JetRunConfigurationType" nameIsGenerated="true">
-    <option name="MAIN_CLASS_NAME" value="org.example.MainKt" />
+    <option name="MAIN_CLASS_NAME" value="li.kausch.kgb.MainKt" />
     <module name="KotlinGameBench.main" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     <method v="2">

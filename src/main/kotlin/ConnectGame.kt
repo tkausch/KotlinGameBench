@@ -1,4 +1,4 @@
-package org.example
+package li.kausch.kgb
 
 class ConnectGame {
     private val board = ConnectBoard()

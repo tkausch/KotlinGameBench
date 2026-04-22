@@ -1,4 +1,4 @@
-package org.example
+package li.kausch.kgb
 
 /**
  * Example usage of SearchEngine for AI gameplay

@@ -1,13 +1,14 @@
 plugins {
     kotlin("jvm") version "2.3.10"
     application
+    jacoco
 }
 
-group = "org.example"
+group = "li.kausch.kgb"
 version = "1.0-SNAPSHOT"
 
 application {
-    mainClass.set("org.example.MainKt")
+    mainClass.set("li.kausch.kgb.MainKt")
     applicationName = "KotlinGameBench"
 }
 
@@ -25,6 +26,19 @@ kotlin {
 
 tasks.test {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.12"
 }
 
 // Explicitly configure the run task
@@ -38,7 +52,7 @@ tasks.register<JavaExec>("runMain") {
     group = "application"
     description = "Run the main class"
     classpath = sourceSets.main.get().runtimeClasspath
-    mainClass.set("org.example.MainKt")
+    mainClass.set("li.kausch.kgb.MainKt")
     standardInput = System.`in`
 }
 

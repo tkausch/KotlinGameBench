@@ -1,4 +1,4 @@
-package org.example
+package li.kausch.kgb
 
 class ConnectBoard(
     val rows: Int = 6,

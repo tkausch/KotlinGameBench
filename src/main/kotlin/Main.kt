@@ -1,4 +1,4 @@
-package org.example
+package li.kausch.kgb
 
 fun main() {
     val game = ConnectGame()

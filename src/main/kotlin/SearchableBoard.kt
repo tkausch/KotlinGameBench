@@ -1,4 +1,4 @@
-package org.example
+package li.kausch.kgb
 
 /**
  * Interface for game boards that can be used with the SearchEngine.

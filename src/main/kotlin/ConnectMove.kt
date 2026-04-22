@@ -1,4 +1,4 @@
-package org.example
+package li.kausch.kgb
 
 class ConnectMove (
     override val player: Player,

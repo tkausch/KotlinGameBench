@@ -1,4 +1,4 @@
-package org.example
+package li.kausch.kgb
 
 enum class Player {
     BLACK,

@@ -5,6 +5,11 @@
 
 # KotlinGameBench
 
+[![CI/CD Pipeline](https://github.com/tkausch/KotlinGameBench/actions/workflows/ci.yml/badge.svg)](https://github.com/tkausch/KotlinGameBench/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/License-Open%20Source-green.svg)](LICENSE)
+[![Kotlin](https://img.shields.io/badge/kotlin-2.3.10-blue.svg?logo=kotlin)](http://kotlinlang.org)
+[![Java](https://img.shields.io/badge/Java-25-orange.svg)](https://openjdk.org/)
+
 A sophisticated game development framework in Kotlin, currently featuring a Connect Four implementation with an AI opponent powered by the minimax algorithm with alpha-beta pruning.
 
 ## 🎮 Game Features
