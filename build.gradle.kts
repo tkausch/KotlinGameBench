@@ -1,7 +1,6 @@
 plugins {
     kotlin("jvm") version "2.3.10"
     application
-    // jacoco - disabled for Java 25 compatibility
 }
 
 group = "li.kausch.kgb"
@@ -26,24 +25,7 @@ kotlin {
 
 tasks.test {
     useJUnitPlatform()
-    // Disable JaCoCo for now due to Java 25 compatibility issues
-    // finalizedBy(tasks.jacocoTestReport)
 }
-
-// JaCoCo configuration - disabled for Java 25 compatibility
-/*
-tasks.jacocoTestReport {
-    dependsOn(tasks.test)
-    reports {
-        xml.required = true
-        html.required = true
-    }
-}
-
-jacoco {
-    toolVersion = "0.8.11"
-}
-*/
 
 // Explicitly configure the run task
 tasks.named<JavaExec>("run") {
