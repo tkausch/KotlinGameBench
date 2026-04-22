@@ -1,8 +1,5 @@
-# KotlinGameBench
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/JetBrains/kotlin-web-site/master/assets/images/open-graph/kotlin_250x250.png" alt="Kotlin Logo" width="150" height="150"/>
-</p>
+![Logo](logo.png)
 
 A sophisticated game development framework in Kotlin, currently featuring a Connect Four implementation with an AI opponent powered by the minimax algorithm with alpha-beta pruning.
 
