@@ -48,4 +48,3 @@ interface MoveProvider {
      */
     fun displayInvalidInput(message: String)
 }
-

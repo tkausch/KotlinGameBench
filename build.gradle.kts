@@ -66,6 +66,7 @@ kotlin {
 tasks.register<JavaExec>("run") {
     group = "application"
     description = "Run the Connect Four game"
+    dependsOn("jvmMainClasses")
     classpath = kotlin.targets["jvm"].compilations["main"].output.classesDirs + configurations.named("jvmRuntimeClasspath").get()
     mainClass.set("li.kausch.kgb.MainKt")
     standardInput = System.`in`

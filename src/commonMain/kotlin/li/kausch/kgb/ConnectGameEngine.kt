@@ -4,7 +4,7 @@ package li.kausch.kgb
  * Core game logic that's platform-agnostic.
  * Works with any MoveProvider implementation.
  */
-class GameEngine {
+class ConnectGameEngine {
     private val board = ConnectBoard()
     private var currentPlayer = Player.WHITE
     private var gameOver = false
