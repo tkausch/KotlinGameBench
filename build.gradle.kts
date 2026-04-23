@@ -22,11 +22,9 @@ kotlin {
         nodejs()
     }
 
-    // Native targets
-    linuxX64()
-    macosX64()
-    macosArm64()
-    mingwX64()
+    // iOS targets (ARM only)
+    iosArm64()
+    iosSimulatorArm64()
 
     sourceSets {
         commonMain {
@@ -63,25 +61,19 @@ kotlin {
             }
         }
 
-        val nativeMain by creating {
+        val iosMain by creating {
             dependsOn(commonMain.get())
         }
 
-        val nativeTest by creating {
+        val iosTest by creating {
             dependsOn(commonTest.get())
         }
 
-        linuxX64Main.get().dependsOn(nativeMain)
-        linuxX64Test.get().dependsOn(nativeTest)
+        iosArm64Main.get().dependsOn(iosMain)
+        iosArm64Test.get().dependsOn(iosTest)
 
-        macosX64Main.get().dependsOn(nativeMain)
-        macosX64Test.get().dependsOn(nativeTest)
-
-        macosArm64Main.get().dependsOn(nativeMain)
-        macosArm64Test.get().dependsOn(nativeTest)
-
-        mingwX64Main.get().dependsOn(nativeMain)
-        mingwX64Test.get().dependsOn(nativeTest)
+        iosSimulatorArm64Main.get().dependsOn(iosMain)
+        iosSimulatorArm64Test.get().dependsOn(iosTest)
     }
 }
 
