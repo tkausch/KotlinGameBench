@@ -16,12 +16,6 @@ kotlin {
     // JVM target
     jvm()
 
-    // JavaScript target
-    js {
-        browser()
-        nodejs()
-    }
-
     // iOS targets (ARM only)
     iosArm64()
     iosSimulatorArm64()
@@ -48,16 +42,6 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation("org.junit.jupiter:junit-jupiter-engine:5.10.0")
                 implementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
-            }
-        }
-
-        jsMain {
-            dependencies {
-            }
-        }
-
-        jsTest {
-            dependencies {
             }
         }
 
