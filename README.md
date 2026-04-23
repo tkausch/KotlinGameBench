@@ -5,7 +5,7 @@
 
 # KotlinGameBench
 
-[![CI/CD Pipeline](https://github.com/tkausch/KotlinGameBench/actions/workflows/ci.yml/badge.svg)](https://github.com/tkausch/KotlinGameBench/actions/workflows/ci.yml)
+[![CI](https://github.com/tkausch/KotlinGameBench/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/tkausch/KotlinGameBench/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-Open%20Source-green.svg)](LICENSE)
 [![Kotlin](https://img.shields.io/badge/kotlin-2.3.10-blue.svg?logo=kotlin)](http://kotlinlang.org)
 [![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://openjdk.org/)
