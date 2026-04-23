@@ -1,51 +1,107 @@
 plugins {
-    kotlin("jvm") version "2.3.10"
-    application
+    kotlin("multiplatform") version "2.3.10"
+    id("maven-publish")
 }
 
 group = "li.kausch.kgb"
 version = "1.0-SNAPSHOT"
 
-application {
-    mainClass.set("li.kausch.kgb.MainKt")
-    applicationName = "KotlinGameBench"
-}
-
 repositories {
     mavenCentral()
 }
 
-dependencies {
-    testImplementation(kotlin("test"))
-}
-
 kotlin {
     jvmToolchain(21)
+
+    // JVM target
+    jvm()
+
+    // JavaScript target
+    js {
+        browser()
+        nodejs()
+    }
+
+    // Native targets
+    linuxX64()
+    macosX64()
+    macosArm64()
+    mingwX64()
+
+    sourceSets {
+        commonMain {
+            dependencies {
+            }
+        }
+
+        commonTest {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
+
+        jvmMain {
+            dependencies {
+            }
+        }
+
+        jvmTest {
+            dependencies {
+                implementation(kotlin("test"))
+                implementation("org.junit.jupiter:junit-jupiter-engine:5.10.0")
+                implementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
+            }
+        }
+
+        jsMain {
+            dependencies {
+            }
+        }
+
+        jsTest {
+            dependencies {
+            }
+        }
+
+        val nativeMain by creating {
+            dependsOn(commonMain.get())
+        }
+
+        val nativeTest by creating {
+            dependsOn(commonTest.get())
+        }
+
+        linuxX64Main.get().dependsOn(nativeMain)
+        linuxX64Test.get().dependsOn(nativeTest)
+
+        macosX64Main.get().dependsOn(nativeMain)
+        macosX64Test.get().dependsOn(nativeTest)
+
+        macosArm64Main.get().dependsOn(nativeMain)
+        macosArm64Test.get().dependsOn(nativeTest)
+
+        mingwX64Main.get().dependsOn(nativeMain)
+        mingwX64Test.get().dependsOn(nativeTest)
+    }
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
-
-// Explicitly configure the run task
-tasks.named<JavaExec>("run") {
-    standardInput = System.`in`
-    args = listOf()
-}
-
-// Add a custom task for running the main class
-tasks.register<JavaExec>("runMain") {
+// Create a run task for the JVM application
+tasks.register<JavaExec>("run") {
     group = "application"
-    description = "Run the main class"
-    classpath = sourceSets.main.get().runtimeClasspath
+    description = "Run the Connect Four game"
+    classpath = kotlin.targets["jvm"].compilations["main"].output.classesDirs + configurations.named("jvmRuntimeClasspath").get()
     mainClass.set("li.kausch.kgb.MainKt")
     standardInput = System.`in`
 }
 
-// Task to print classpath for debugging
-tasks.register("printClasspath") {
-    doLast {
-        println(sourceSets.main.get().runtimeClasspath.asPath)
-    }
+// Configure JVM test task to use JUnit5
+tasks.named<Test>("jvmTest") {
+    useJUnitPlatform()
 }
 
+// Publish configuration
+publishing {
+    repositories {
+        mavenLocal()
+    }
+}
