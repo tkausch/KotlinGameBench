@@ -13,33 +13,33 @@ class ConnectGameEngine {
     /**
      * Runs the game with the given move provider.
      */
-    suspend fun playGame(moveProvider: MoveProvider) {
-        moveProvider.displayWelcome()
-        moveProvider.displayInitialBoard(board)
+    suspend fun playGame(connectController: ConnectController) {
+        connectController.displayWelcome()
+        connectController.displayInitialBoard(board)
 
         while (!gameOver) {
-            playTurn(moveProvider)
+            playTurn(connectController)
         }
 
-        moveProvider.notifyGameOver(board.winner())
+        connectController.notifyGameOver(board.winner())
     }
 
-    private suspend fun playTurn(moveProvider: MoveProvider) {
+    private suspend fun playTurn(connectController: ConnectController) {
         val playerSymbol = getPlayerSymbol(currentPlayer)
 
         if (currentPlayer == Player.WHITE) {
-            playHumanTurn(moveProvider, playerSymbol)
+            playHumanTurn(connectController, playerSymbol)
         } else {
-            playAITurn(moveProvider, playerSymbol)
+            playAITurn(connectController, playerSymbol)
         }
     }
 
-    private suspend fun playHumanTurn(moveProvider: MoveProvider, playerSymbol: String) {
+    private suspend fun playHumanTurn(connectController: ConnectController, playerSymbol: String) {
         while (true) {
-            val column = moveProvider.getHumanMove(board, currentPlayer)
+            val column = connectController.getHumanMove(board, currentPlayer)
 
             if (column < 0 || column >= board.columns) {
-                moveProvider.displayInvalidInput(
+                connectController.displayInvalidInput(
                     "Invalid column! Please enter a number between 1 and ${board.columns}"
                 )
                 continue
@@ -49,25 +49,25 @@ class ConnectGameEngine {
             val actualMove = board.move(move)
 
             if (actualMove == null) {
-                moveProvider.displayColumnFull(column + 1)
+                connectController.displayColumnFull(column + 1)
                 continue
             }
 
-            moveProvider.notifyMoveResult(playerSymbol, column + 1, board)
+            connectController.notifyMoveResult(playerSymbol, column + 1, board)
             checkGameEnd()
             break
         }
     }
 
-    private suspend fun playAITurn(moveProvider: MoveProvider, playerSymbol: String) {
-        moveProvider.displayAIThinking(playerSymbol)
+    private suspend fun playAITurn(connectController: ConnectController, playerSymbol: String) {
+        connectController.displayAIThinking(playerSymbol)
 
         val aiMove = aiPlayer.getBestMove(board, currentPlayer, depth = 6)
 
         if (aiMove != null) {
             val move = board.move(aiMove)
             if (move != null) {
-                moveProvider.notifyMoveResult(playerSymbol, aiMove.column + 1, board)
+                connectController.notifyMoveResult(playerSymbol, aiMove.column + 1, board)
                 checkGameEnd()
             }
         }

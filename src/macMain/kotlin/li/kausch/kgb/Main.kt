@@ -7,7 +7,7 @@ fun main() {
 }
 
 /**
- * JVM-specific wrapper for ConnectGame that provides blocking execution.
+ * macOS/Native-specific wrapper for ConnectGame that provides blocking execution.
  */
 fun runConnectGame() {
     val game = ConnectGame(ConsoleController())
@@ -15,3 +15,4 @@ fun runConnectGame() {
         game.start()
     }
 }
+

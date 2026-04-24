@@ -1,0 +1,8 @@
+framework module "KotlinGameBench" {
+    umbrella header "KotlinGameBench.h"
+
+    export *
+    module * { export * }
+
+    use Foundation
+}

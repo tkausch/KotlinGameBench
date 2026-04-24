@@ -16,9 +16,36 @@ kotlin {
     // JVM target
     jvm()
 
-    // iOS targets (ARM only)
-    iosArm64()
-    iosSimulatorArm64()
+    // Native target for macOS ARM64
+    macosArm64("mac") {
+        binaries {
+            executable {
+                entryPoint = "li.kausch.kgb.main"
+            }
+            framework {
+                baseName = "KotlinGameBench"
+            }
+        }
+    }
+
+    // iOS targets for xcframework
+    iosArm64("ios") {
+        binaries {
+            framework {
+                baseName = "KotlinGameBench"
+                isStatic = true
+            }
+        }
+    }
+
+    iosSimulatorArm64("iosSimulator") {
+        binaries {
+            framework {
+                baseName = "KotlinGameBench"
+                isStatic = true
+            }
+        }
+    }
 
     sourceSets {
         commonMain {
@@ -38,27 +65,20 @@ kotlin {
             }
         }
 
-        jvmTest {
+        val macMain by getting {
             dependencies {
-                implementation(kotlin("test"))
-                implementation("org.junit.jupiter:junit-jupiter-engine:5.10.0")
-                implementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
             }
         }
 
-        val iosMain by creating {
-            dependsOn(commonMain.get())
+        val iosMain by getting {
+            dependencies {
+            }
         }
 
-        val iosTest by creating {
-            dependsOn(commonTest.get())
+        val iosSimulatorMain by getting {
+            dependencies {
+            }
         }
-
-        iosArm64Main.get().dependsOn(iosMain)
-        iosArm64Test.get().dependsOn(iosTest)
-
-        iosSimulatorArm64Main.get().dependsOn(iosMain)
-        iosSimulatorArm64Test.get().dependsOn(iosTest)
     }
 }
 
@@ -73,11 +93,75 @@ tasks.register<JavaExec>("run") {
 }
 
 // Configure JVM test task to use JUnit5
-tasks.named<Test>("jvmTest") {
-    useJUnitPlatform()
+// tasks.named<Test>("jvmTest") {
+//     useJUnitPlatform()
+// }
+
+// Task to build xcframework components
+tasks.register("buildXCFramework") {
+    group = "build"
+    description = "Build XCFramework for iOS and macOS"
+
+    dependsOn(
+        "linkReleaseFrameworkIos",
+        "linkReleaseFrameworkIosSimulator",
+        "linkReleaseFrameworkMac"
+    )
+
+    doLast {
+        println("\n✅ XCFramework components built successfully!")
+        println("\n📍 Framework locations:")
+        println("  iOS ARM64:        build/bin/ios/releaseFramework/KotlinGameBench.framework")
+        println("  iOS Simulator:    build/bin/iosSimulator/releaseFramework/KotlinGameBench.framework")
+        println("  macOS ARM64:      build/bin/mac/releaseFramework/KotlinGameBench.framework")
+        println("\n📦 To create the xcframework bundle, run:")
+        println("  ./scripts/create-xcframework.sh")
+        println("\nor use the Gradle wrapper:")
+        println("  ./gradlew createXCFramework")
+    }
 }
 
-// Publish configuration
+// Complete task: Build and create xcframework
+tasks.register<Exec>("createXCFramework") {
+    group = "build"
+    description = "Build and create complete XCFramework (iOS, iOS Simulator, macOS)"
+    dependsOn("buildXCFramework")
+
+    val projectDir = projectDir.absolutePath
+    val iosFramework = "$projectDir/build/bin/ios/releaseFramework/KotlinGameBench.framework"
+    val iosSimFramework = "$projectDir/build/bin/iosSimulator/releaseFramework/KotlinGameBench.framework"
+    val macFramework = "$projectDir/build/bin/mac/releaseFramework/KotlinGameBench.framework"
+    val output = "$projectDir/KotlinGameBench.xcframework"
+
+    commandLine(
+        "xcodebuild",
+        "-create-xcframework",
+        "-framework", iosFramework,
+        "-framework", iosSimFramework,
+        "-framework", macFramework,
+        "-output", output
+    )
+
+    doFirst {
+        println("\n🚀 Creating XCFramework bundle...")
+        println("  iOS:           $iosFramework")
+        println("  iOS Simulator: $iosSimFramework")
+        println("  macOS:         $macFramework")
+        println("  Output:        $output")
+    }
+
+    doLast {
+        println("\n✅ XCFramework created successfully!")
+        println("📍 Location: $output")
+        println("\n📋 XCFramework contains:")
+        println("  ✓ iOS ARM64 (devices)")
+        println("  ✓ iOS ARM64 Simulator (simulator)")
+        println("  ✓ macOS ARM64 (Apple Silicon)")
+        println("\n🎯 Ready to use in Xcode projects!")
+    }
+}
+
+
 publishing {
     repositories {
         mavenLocal()

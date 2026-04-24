@@ -4,7 +4,7 @@ package li.kausch.kgb
  * Interface for providing moves and handling game UI updates.
  * Implementations can provide console, iOS, web, or other UI interactions.
  */
-interface MoveProvider {
+interface ConnectController {
     /**
      * Get the next move from the human player.
      * @param board Current board state
@@ -47,4 +47,5 @@ interface MoveProvider {
      * Display invalid input message.
      */
     fun displayInvalidInput(message: String)
+
 }
