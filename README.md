@@ -75,6 +75,86 @@ java -cp build/libs/KotlinGameBench-1.0-SNAPSHOT.jar li.kausch.kgb.MainKt
 java -jar build/libs/KotlinGameBench-1.0-SNAPSHOT.jar
 ```
 
+## 🍎 Using KotlinGameBench in Xcode
+
+This framework can be integrated into macOS and iOS applications via XCFramework.
+
+### Step 1: Build the XCFramework
+
+```bash
+# From the KotlinGameBench project directory
+cd KotlinGameBench
+
+# Build all framework components (iOS, iOS Simulator, macOS)
+./gradlew buildXCFramework
+
+# Create the complete XCFramework bundle
+./gradlew createXCFramework
+```
+
+### Step 2: Verify Framework Creation
+
+The `buildXCFramework` task builds framework binaries for:
+- **iOS ARM64** (devices): `build/bin/ios/releaseFramework/KotlinGameBench.framework`
+- **iOS Simulator**: `build/bin/iosSimulator/releaseFramework/KotlinGameBench.framework`
+- **macOS ARM64**: `build/bin/mac/releaseFramework/KotlinGameBench.framework`
+
+The `createXCFramework` task then combines these into a single XCFramework bundle:
+- **Output**: `KotlinGameBench.xcframework`
+
+### Step 3: Create a macOS/iOS Xcode Project
+
+1. Launch Xcode
+2. Create a new **macOS** or **iOS** project
+3. Choose your preferred template (App, Tool, etc.)
+
+### Step 4: Add XCFramework to Your Project
+
+1. Locate `KotlinGameBench.xcframework` (created in Step 1)
+2. Open your Xcode project
+3. Select your project in the navigator
+4. Go to **Build Phases** → **Link Binary With Libraries**
+5. Click the **+** button and select **Add Files...**
+6. Navigate to and select `KotlinGameBench.xcframework`
+7. Verify it's added to your target
+
+### Step 5: Adjust Library Validation Settings
+
+To properly link the framework, adjust your build settings:
+
+1. Select your project
+2. Go to **Build Settings**
+3. Search for **"Validate Built Product"**
+4. Set **Validate Built Product** to **No** for Debug configuration
+
+**Visual Reference:**
+![Build Settings](doc/buildSettings.png)
+
+### Step 6: Add Code to Your Main
+
+Import and use the framework in your Swift code:
+
+```swift
+import KotlinGameBench
+
+// Initialize and use the game framework
+let board = ConnectBoard()
+let gameEngine = ConnectGameEngine()
+let game = ConnectGame()
+
+// Play the game
+game.runConnectGame()
+```
+
+**Visual Reference:**
+![Xcode Implementation](doc/xcode.png)
+
+### Troubleshooting
+
+- **Framework not found**: Ensure the XCFramework was built successfully and is in the correct location
+- **Linker errors**: Verify that Validate Built Product is disabled
+- **Runtime crashes**: Check that all framework dependencies are properly linked
+
 ## 🎯 How to Play
 
 1. The game starts with an empty 6x7 ConnectBoard
